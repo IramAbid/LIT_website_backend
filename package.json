@@ -1,9 +1,12 @@
 {
-  "name": "LIT-web-backend",
+  "name": "lit-web-backend",
   "version": "1.0.0",
   "description": "Backend of LIT website",
   "main": "index.js",
-  "repository": "https://github.com/ayaankhan98/LIT-web-backend.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayaankhan98/LIT-web-backend.git"
+  },
   "author": "ayaankhan98 <ayaankhan98@gmail.com>",
   "license": "MIT",
   "type": "module",
@@ -21,5 +24,10 @@
   "devDependencies": {
     "nodemon": "^2.0.20",
     "prisma": "^4.10.1"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/ayaankhan98/LIT-web-backend/issues"
+  },
+  "homepage": "https://github.com/ayaankhan98/LIT-web-backend#readme",
+  "keywords": []
 }
