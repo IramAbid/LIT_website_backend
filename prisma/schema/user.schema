@@ -1,0 +1,20 @@
+// User schema
+model User {
+  id           Int           @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  gender       String
+  type         UserType      @relation(fields: [typeId], references: [id])
+  course       Course?       @relation(fields: [courseId], references: [id])
+  branch       String
+  year         Int
+  contact      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  typeId       Int
+  courseId     Int?
+  auth         Auth?
+  achievements Achievement[]
+  blogs        Blog[]
+  resources    Resource[]
+}

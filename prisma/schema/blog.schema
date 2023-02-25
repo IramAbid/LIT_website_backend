@@ -1,0 +1,10 @@
+// Blog schema
+model Blog {
+  id          Int      @id @default(autoincrement())
+  author      User     @relation(fields: [userId], references: [id])
+  titleOfBlog String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  userId      Int
+}

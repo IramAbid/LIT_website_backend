@@ -1,0 +1,9 @@
+// Achievement schema
+model Achievement {
+  id          Int      @id @default(autoincrement())
+  author      User     @relation(fields: [userId], references: [id])
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  userId      Int
+}
