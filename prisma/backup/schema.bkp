@@ -10,7 +10,6 @@ datasource db {
 //--------------------------------------------------------------------
 //##### ../prisma/schema/achievement.schema                                                       
 //--------------------------------------------------------------------
-
 // Achievement schema
 model Achievement {
   id          Int      @id @default(autoincrement())
@@ -24,7 +23,6 @@ model Achievement {
 //--------------------------------------------------------------------
 //##### ../prisma/schema/auth.schema                                                       
 //--------------------------------------------------------------------
-
 // Auth schema
 model Auth {
   id           Int      @id @default(autoincrement())
@@ -44,7 +42,6 @@ model Auth {
 //--------------------------------------------------------------------
 //##### ../prisma/schema/blog.schema                                                       
 //--------------------------------------------------------------------
-
 // Blog schema
 model Blog {
   id          Int      @id @default(autoincrement())
@@ -59,7 +56,6 @@ model Blog {
 //--------------------------------------------------------------------
 //##### ../prisma/schema/course.schema                                                       
 //--------------------------------------------------------------------
-
 // Course schema
 model Course {
   id        Int      @id @default(autoincrement())
@@ -73,7 +69,6 @@ model Course {
 //--------------------------------------------------------------------
 //##### ../prisma/schema/file.schema                                                       
 //--------------------------------------------------------------------
-
 // File schema
 model File {
   id         Int      @id @default(autoincrement())
@@ -89,7 +84,6 @@ model File {
 //--------------------------------------------------------------------
 //##### ../prisma/schema/resource.schema                                                       
 //--------------------------------------------------------------------
-
 // Resource schema
 model Resource {
   id          Int      @id @default(autoincrement())
@@ -105,7 +99,6 @@ model Resource {
 //--------------------------------------------------------------------
 //##### ../prisma/schema/user.schema                                                       
 //--------------------------------------------------------------------
-
 // User schema
 model User {
   id           Int           @id @default(autoincrement())
@@ -130,7 +123,6 @@ model User {
 //--------------------------------------------------------------------
 //##### ../prisma/schema/user_type.schema                                                       
 //--------------------------------------------------------------------
-
 // UserType schema
 model UserType {
   id        Int      @id @default(autoincrement())

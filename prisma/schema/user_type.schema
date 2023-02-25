@@ -1,0 +1,8 @@
+// UserType schema
+model UserType {
+  id        Int      @id @default(autoincrement())
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  users     User[]
+}
