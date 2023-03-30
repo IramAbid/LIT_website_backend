@@ -8,9 +8,9 @@ const app = express();
 app.use(express.json());
 
 //testing myLogger
-myLogger("login service").error("this error is genrating from logIn service")
-myLogger("mail service").info("Information from Mail Service")
-myLogger("forum service").warn("warning from Forum service")
+myLogger("Test Error Log").error("This is a test error message")
+myLogger("Test Info Log").info("This is a test info message")
+myLogger("Test Warn Log").warn("This is a test warn message")
 
 
 app.get("/", (req, res) => {

@@ -2,7 +2,7 @@ import winston from "winston";
 
 //myFormat defines the custom logging format
 const myFormat = winston.format.printf(({ level, message, label, timestamp }) => {
-  return `${timestamp} :: ${label}--> [${level}] :: ${message}`;
+  return `[${timestamp}] - ${level} : ${label} - ${message}`;
 });
 
 
@@ -40,7 +40,7 @@ const myLogger = (label) => {
         true: "all",
       }),
       winston.format.label({ label: label }),
-      winston.format.timestamp({ format: "HH:MM:SS" }),
+      winston.format.timestamp({ format: "DD:MM:YYYY HH:MM:SS" }),
       myFormat
     ),
     defaultMeta: { service: 'user-service' },
