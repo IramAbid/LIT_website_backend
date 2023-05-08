@@ -1,20 +1,22 @@
 import express from "express";
 import config from "./config/config.js";
 import myLogger from "./services/logger/index.js";
+import authRoutes from "./routes/authRoutes.js"
+import {} from 'dotenv/config'
 
 
 const app = express();
 
 app.use(express.json());
+app.use(authRoutes)
 
-//testing myLogger
-myLogger("Test Error Log").error("This is a test error message")
-myLogger("Test Info Log").info("This is a test info message")
-myLogger("Test Warn Log").warn("This is a test warn message")
+
+
 
 
 app.get("/", (req, res) => {
     res.send("API is running...");
+
 });
 
 
@@ -24,5 +26,5 @@ app.get("/api/test", (req, res) => {
 });
 
 app.listen(config.PORT, () => {
-    console.log(`server running on ${config.PORT}`);
+    myLogger("Server").info(`server running on port ${config.PORT}`)
 });

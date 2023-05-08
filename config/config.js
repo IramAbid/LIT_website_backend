@@ -1,4 +1,4 @@
 let config = {
     PORT: 3000,
 }
-export default config;
+export default config ;
