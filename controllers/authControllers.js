@@ -1,4 +1,4 @@
-import  jwt  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import prisma from "../prisma/client/client.js";
 import bcrypt from "bcrypt"
 
@@ -29,25 +29,45 @@ async function login(req, res) {
       });
    }
 
+   //delete token if already exit
+   const token =  await prisma.auth.findUnique({
+      where: {
+         userId: Number(user.id),
+      }
+   })
+
+   if (token) {
+      await prisma.auth.delete({
+         where: {
+            userId:Number(user.id)
+         }
+      })
+   }
+
    // Generate auth token 
-   const token = jwt.sign({ email: email }, process.env.JWT_TOKEN_SECRET, {
-      expiresIn: '1h',
+   const generatedToken = jwt.sign({ email: email }, process.env.JWT_TOKEN_SECRET, {
+      expiresIn: '1m',
    });
 
    // Save token to the database
+
+   let currentTime = new Date().getTime();
+   let updatedTime = new Date(currentTime + 2 * 60 * 60 * 1000);
    await prisma.auth.create({
       data: {
-         auth_token: token,
+         auth_token: generatedToken,
+         auth_timeout: updatedTime,
+         is_logged_in: true,
+         is_active:true,
          user: {
             connect: {
-               email: email,
+               email: user.email,
             },
          },
       },
    });
 
-
-   return res.status(201).json({ "user": email, "token": token })
+   return res.status(201).json({ "user": email,"type":user.role, "token": generatedToken })
 }
 
 

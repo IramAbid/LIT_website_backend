@@ -10,18 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(authRoutes)
 
-
-
-
-
 app.get("/", (req, res) => {
-    res.send("API is running...");
-
-});
-
-
-
-app.get("/api/test", (req, res) => {
     res.send("API is running...");
 });
 

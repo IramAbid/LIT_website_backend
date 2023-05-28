@@ -11,14 +11,68 @@ datasource db {
 //##### ../prisma/schema/achievement.schema                                                       
 //--------------------------------------------------------------------
 
+//--------------------------------------------------------------------
+//##### ../prisma/schema/user.schema                                                       
+//--------------------------------------------------------------------
+
+// User schema
+model User {
+  id           Int           @id @unique @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String        @unique
+  password     String
+  gender       String
+  role         Role          @default(AWARDEE)
+  course       Course?       @relation(fields: [courseId], references: [id])
+  courseId     Int?
+  auth         Auth?
+  contact      String?
+  createdAt    DateTime?     @default(now())
+  updatedAt    DateTime?     @default(now()) @updatedAt
+  achievements Achievement[]
+  blogs        Blog[]
+  resources    Resource[]
+
+  @@index([email])
+}
+
+//--------------------------------------------------------------------
+//##### ../prisma/schema/auth.schema                                                       
+//--------------------------------------------------------------------
+
+// Auth schema
+model Auth {
+  id           Int      @id @unique @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id], onDelete: NoAction)
+  userId       Int      @unique
+  is_active    Boolean  @default(false)
+  is_logged_in Boolean  @default(false)
+  auth_token   String
+  auth_timeout DateTime
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+//--------------------------------------------------------------------
+//##### ../prisma/schema/Role.schema                                                       
+//--------------------------------------------------------------------
+
+enum Role {
+  AWARDEE
+  MENTOR
+  SPONSOR
+  ADMIN
+}
+
 // Achievement schema
 model Achievement {
   id          Int      @id @default(autoincrement())
-  author      User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  userId      Int
 }
 
 //--------------------------------------------------------------------
@@ -28,12 +82,12 @@ model Achievement {
 // Blog schema
 model Blog {
   id          Int      @id @default(autoincrement())
-  author      User     @relation(fields: [userId], references: [id])
+  author        User     @relation(fields: [userId], references: [id])
+  userId      Int
   titleOfBlog String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
-  userId      Int
 }
 
 //--------------------------------------------------------------------
@@ -56,13 +110,13 @@ model Course {
 
 // File schema
 model File {
-  id         String   @id @default(uuid())
+  id         Int      @id @default(autoincrement())
   resource   Resource @relation(fields: [resourceId], references: [id])
+  resourceId Int
   title      String
   url        String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
-  resourceId Int
 }
 
 //--------------------------------------------------------------------
@@ -73,68 +127,10 @@ model File {
 model Resource {
   id          Int      @id @default(autoincrement())
   author      User     @relation(fields: [userId], references: [id])
+  userId      Int
   description String
   title       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
-  userId      Int
   files       File[]
-}
-
-//--------------------------------------------------------------------
-//##### ../prisma/schema/user.schema                                                       
-//--------------------------------------------------------------------
-
-// User schema
-model User {
-  id           Int           @id @unique @default(autoincrement())
-  firstName    String
-  lastName     String
-  email        String        @unique
-  password     String
-  gender       String
-  role         Role @default(AWARDEE)
-  course       Course?       @relation(fields: [courseId], references: [id])
-  branch       String
-  year         Int
-  contact      String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @default(now()) @updatedAt
-  typeId       Int
-  courseId     Int?
-  auth         Auth?
-  achievements Achievement[]
-  blogs        Blog[]
-  resources    Resource[]
-
-  @@index([email])
-}
-
-//--------------------------------------------------------------------
-//##### ../prisma/schema/auth.schema                                                       
-//--------------------------------------------------------------------
-
-// Auth schema
-model Auth {
-  id           Int      @id @default(autoincrement())
-  user         User     @relation(fields: [userId], references: [id])
-  userId       Int      @unique
-  type         String?
-  is_active    Boolean?
-  is_logged_in Boolean?
-  auth_token   String?
-  auth_timeout DateTime?
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-}
-
-//--------------------------------------------------------------------
-//##### ../prisma/schema/Role.schema                                                       
-//--------------------------------------------------------------------
-
-enum Role{
-  AWARDEE
-  MENTOR
-  SPONSOR
-  ADMIN
 }
