@@ -1,0 +1,9 @@
+// Course schema
+model Course {
+  id        Int      @id @default(autoincrement())
+  course    String
+  offeredBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  users     User[]
+}

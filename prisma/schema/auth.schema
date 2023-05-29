@@ -1,0 +1,15 @@
+// Auth schema
+model Auth {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @unique
+  user         User     @relation(fields: [userId], references: [id])
+  type         String
+  email        String
+  password     String
+  is_active    Boolean
+  is_logged_in Boolean
+  auth_token   String
+  auth_timeout DateTime
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+}

@@ -1,0 +1,11 @@
+// Resource schema
+model Resource {
+  id          Int      @id @default(autoincrement())
+  author      User     @relation(fields: [userId], references: [id])
+  description String
+  title       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  userId      Int
+  files       File[]
+}
