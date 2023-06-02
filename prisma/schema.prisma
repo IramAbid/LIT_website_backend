@@ -11,14 +11,29 @@ datasource db {
 //##### ../prisma/schema/achievement.schema                                                       
 //--------------------------------------------------------------------
 
-// Achievement schema
-model Achievement {
-  id          Int      @id @default(autoincrement())
-  author      User     @relation(fields: [userId], references: [id])
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
-  userId      Int
+//--------------------------------------------------------------------
+//##### ../prisma/schema/user.schema                                                       
+//--------------------------------------------------------------------
+
+// User schema
+model User {
+  id           Int           @id @unique @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String        @unique
+  password     String
+  gender       String
+  role         Role          @default(AWARDEE)
+  course       Course?       @relation(fields: [courseId], references: [id])
+  courseId     Int?
+  auth         Auth?
+  contact      String?
+  createdAt    DateTime?     @default(now())
+  updatedAt    DateTime?     @default(now()) @updatedAt
+  achievements Achievement[]
+  blogs        Blog[]
+  resources    Resource[]
+  @@index([email])
 }
 
 //--------------------------------------------------------------------
@@ -27,18 +42,36 @@ model Achievement {
 
 // Auth schema
 model Auth {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id @unique @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id], onDelete: NoAction)
   userId       Int      @unique
-  user         User     @relation(fields: [userId], references: [id])
-  type         String
-  email        String
-  password     String
-  is_active    Boolean
-  is_logged_in Boolean
+  is_active    Boolean  @default(false)
+  is_logged_in Boolean  @default(false)
   auth_token   String
   auth_timeout DateTime
   created_at   DateTime @default(now())
-  updated_at   DateTime @default(now()) @updatedAt
+  updated_at   DateTime @updatedAt
+}
+
+//--------------------------------------------------------------------
+//##### ../prisma/schema/Role.schema                                                       
+//--------------------------------------------------------------------
+
+enum Role {
+  AWARDEE
+  MENTOR
+  SPONSOR
+  ADMIN
+}
+
+// Achievement schema
+model Achievement {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 //--------------------------------------------------------------------
@@ -48,12 +81,12 @@ model Auth {
 // Blog schema
 model Blog {
   id          Int      @id @default(autoincrement())
-  author      User     @relation(fields: [userId], references: [id])
+  author        User     @relation(fields: [userId], references: [id])
+  userId      Int
   titleOfBlog String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
-  userId      Int
 }
 
 //--------------------------------------------------------------------
@@ -78,13 +111,12 @@ model Course {
 model File {
   id         Int      @id @default(autoincrement())
   resource   Resource @relation(fields: [resourceId], references: [id])
+  resourceId Int
   title      String
   url        String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
-  resourceId Int
 }
-
 
 //--------------------------------------------------------------------
 //##### ../prisma/schema/resource.schema                                                       
@@ -94,49 +126,10 @@ model File {
 model Resource {
   id          Int      @id @default(autoincrement())
   author      User     @relation(fields: [userId], references: [id])
+  userId      Int
   description String
   title       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
-  userId      Int
   files       File[]
 }
-
-//--------------------------------------------------------------------
-//##### ../prisma/schema/user.schema                                                       
-//--------------------------------------------------------------------
-
-// User schema
-model User {
-  id           Int           @id @default(autoincrement())
-  firstName    String
-  lastName     String
-  gender       String
-  type         UserType      @relation(fields: [typeId], references: [id])
-  course       Course?       @relation(fields: [courseId], references: [id])
-  branch       String
-  year         Int
-  contact      String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @default(now()) @updatedAt
-  typeId       Int
-  courseId     Int?
-  auth         Auth?
-  achievements Achievement[]
-  blogs        Blog[]
-  resources    Resource[]
-}
-
-//--------------------------------------------------------------------
-//##### ../prisma/schema/user_type.schema                                                       
-//--------------------------------------------------------------------
-
-// UserType schema
-model UserType {
-  id        Int      @id @default(autoincrement())
-  type      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  users     User[]
-}
-

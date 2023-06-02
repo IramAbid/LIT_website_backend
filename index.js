@@ -1,28 +1,46 @@
 import express from "express";
 import config from "./config/config.js";
 import myLogger from "./services/logger/index.js";
+import authRoutes from "./routes/authRoutes.js"
+import { } from 'dotenv/config'
+import sgMail from '@sendgrid/mail'
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 
 const app = express();
 
 app.use(express.json());
-
-//testing myLogger
-myLogger("Test Error Log").error("This is a test error message")
-myLogger("Test Info Log").info("This is a test info message")
-myLogger("Test Warn Log").warn("This is a test warn message")
-
+app.use(authRoutes)
 
 app.get("/", (req, res) => {
     res.send("API is running...");
 });
+app.get("/send", (req, res) => {
 
 
+    const msg = {
+        to: 'mr.mra.info@gmail.com', // Change to your recipient
+        from: 'gj9678@myamu.ac.in', // Change to your verified sender
+        subject: 'Sending with SendGrid is Fun',
+        templateId: 'd-e1613d50f3914be69a19da39c2e27e7d',
+        dynamicTemplateData: {
+            subject: 'Testing Templates',
+            name: 'Some One',
+        },
+    }
+    sgMail
+        .send(msg)
+        .then(() => {
+            console.log('Email sent')
+        })
+        .catch((error) => {
+            console.error(error)
+        })
 
-app.get("/api/test", (req, res) => {
     res.send("API is running...");
 });
 
+
 app.listen(config.PORT, () => {
-    console.log(`server running on ${config.PORT}`);
+    myLogger("Server").info(`server running on port http://localhost:${config.PORT}`)
 });

@@ -5,7 +5,6 @@ const myFormat = winston.format.printf(({ level, message, label, timestamp }) =>
   return `[${timestamp}] - ${level} : ${label} - ${message}`;
 });
 
-
 //config defines the custome levels of logging and their colors
 const config = {
   levels: {

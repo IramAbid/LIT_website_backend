@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Auth" ALTER COLUMN "type" DROP NOT NULL,
+ALTER COLUMN "is_active" DROP NOT NULL,
+ALTER COLUMN "is_logged_in" DROP NOT NULL,
+ALTER COLUMN "auth_token" DROP NOT NULL,
+ALTER COLUMN "auth_timeout" DROP NOT NULL;
