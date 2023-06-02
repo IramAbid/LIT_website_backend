@@ -33,6 +33,7 @@ model User {
   achievements Achievement[]
   blogs        Blog[]
   resources    Resource[]
+  newsfeed     Newsfeed[]
 
   @@index([email])
 }
@@ -135,3 +136,13 @@ model Resource {
   files       File[]
 }
 
+model Newsfeed {
+  id          Int      @id @default(autoincrement())
+  author      User     @relation(fields: [userId], references: [id])
+  role         Role          @default(MENTOR)
+  userId      Int
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
