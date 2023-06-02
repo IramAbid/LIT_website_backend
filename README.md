@@ -8,8 +8,9 @@ LIT Website backend
 - Install Node
 - clone the repository
 - get into the project directory
-- create a `.env` file in the root directory and add the `DATABASE_URL` in the `.env`
+- create a `.env` file in the root directory and add the `DATABASE_URL` and `JWT_TOKEN_SECRET` in the `.env`
 - `DATABASE_URL="postgresql://username:password@localhost:5432/lit-dev"`
+- `JWT_TOKEN_SECRET="your secret"`
 - Manually create a database in portgres with name `lit-dev`
 - run `yarn install` or `npm install`
 - run `yarn start` or `npm start` to run the server

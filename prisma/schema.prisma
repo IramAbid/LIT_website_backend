@@ -33,7 +33,6 @@ model User {
   achievements Achievement[]
   blogs        Blog[]
   resources    Resource[]
-
   @@index([email])
 }
 
