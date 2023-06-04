@@ -45,7 +45,7 @@ async function login(req, res) {
 
    // Generate auth token 
    const generatedToken = jwt.sign({ email: email }, process.env.JWT_TOKEN_SECRET, {
-      expiresIn: '1m',
+      expiresIn: '24h',
    });
 
    // Save token to the database
