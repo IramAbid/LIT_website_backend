@@ -23,6 +23,7 @@ model User {
   email        String        @unique
   password     String
   gender       String
+  isEmailVerified Boolean?
   role         Role          @default(AWARDEE)
   course       Course?       @relation(fields: [courseId], references: [id])
   courseId     Int?
@@ -33,6 +34,7 @@ model User {
   achievements Achievement[]
   blogs        Blog[]
   resources    Resource[]
+
   @@index([email])
 }
 
@@ -43,8 +45,8 @@ model User {
 // Auth schema
 model Auth {
   id           Int      @id @unique @default(autoincrement())
-  user         User     @relation(fields: [userId], references: [id], onDelete: NoAction)
-  userId       Int      @unique
+  user         User?    @relation(fields: [userId], references: [id], onDelete: NoAction)
+  userId       Int?     @unique
   is_active    Boolean  @default(false)
   is_logged_in Boolean  @default(false)
   auth_token   String
@@ -67,8 +69,8 @@ enum Role {
 // Achievement schema
 model Achievement {
   id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -81,8 +83,8 @@ model Achievement {
 // Blog schema
 model Blog {
   id          Int      @id @default(autoincrement())
-  author        User     @relation(fields: [userId], references: [id])
-  userId      Int
+  author      User?     @relation(fields: [userId], references: [id])
+  userId      Int?
   titleOfBlog String
   description String
   createdAt   DateTime @default(now())
@@ -125,8 +127,8 @@ model File {
 // Resource schema
 model Resource {
   id          Int      @id @default(autoincrement())
-  author      User     @relation(fields: [userId], references: [id])
-  userId      Int
+  author      User?     @relation(fields: [userId], references: [id])
+  userId      Int?
   description String
   title       String
   createdAt   DateTime @default(now())

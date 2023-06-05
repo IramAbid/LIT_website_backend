@@ -20,7 +20,7 @@ const authRole=  (role) =>{
         email: req.user.email
       }
     });
-    if(usr.role !== role){
+    if(!role.includes(usr.role)){
       return res.status(401).send("Not Allowed");
     }
     req.user= usr

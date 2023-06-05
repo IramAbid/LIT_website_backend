@@ -1,16 +1,17 @@
 import express from "express";
 import config from "./config/config.js";
 import myLogger from "./services/logger.js";
-import authRoutes from "./routes/authRoutes.js"
+import authRouter from "./routes/authRoutes.js"
+import userRouter from "./routes/userRoutes.js"
 import { } from 'dotenv/config'
 import mailer from "./services/mailer.js";
 import {authenticateToken, authRole} from "./middlewares/auth.js"
 import roles from "./permissions/role.js"
 
 const app = express();
-
 app.use(express.json());
-app.use(authRoutes)
+app.use(authRouter)
+app.use("/user",userRouter)
 
 app.get("/", (req, res) => {
     res.send("API is running...");
