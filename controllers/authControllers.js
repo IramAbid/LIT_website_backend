@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt"
+import prisma from "../prisma/client/client.js"
 
 
 async function login(req, res) {
@@ -66,8 +67,13 @@ async function login(req, res) {
       },
    });
 
-   return res.status(201).json({ "user": email,"type":user.role, "token": generatedToken })
+   return res.status(201).json({
+      user:{
+         id: user.id,
+         email:user.email
+      },
+      token:generatedToken
+   })
 }
-
 
 export default { login };

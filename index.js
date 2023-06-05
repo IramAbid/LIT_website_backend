@@ -4,6 +4,9 @@ import myLogger from "./services/logger.js";
 import authRoutes from "./routes/authRoutes.js"
 import { } from 'dotenv/config'
 import mailer from "./services/mailer.js";
+import {authenticateToken, authRole} from "./middlewares/auth.js"
+import roles from "./permissions/role.js"
+
 const app = express();
 
 app.use(express.json());
@@ -11,6 +14,9 @@ app.use(authRoutes)
 
 app.get("/", (req, res) => {
     res.send("API is running...");
+});
+app.post("/verify", authenticateToken, authRole(roles.ADMIN), (req, res) => {
+    res.send(`user: ${req.user.id}`);
 });
 
 
