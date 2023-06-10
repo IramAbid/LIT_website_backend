@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import prisma from "../prisma/client/client.js";
 import bcrypt from "bcrypt"
+import prisma from "../prisma/client/client.js"
 
 
 async function login(req, res) {
@@ -25,7 +25,7 @@ async function login(req, res) {
 
    if (!passwordMatch) {
       return res.status(401).json({
-         error: 'Password do not matches',
+         error: 'Invalid Credentials.',
       });
    }
 
@@ -46,17 +46,17 @@ async function login(req, res) {
 
    // Generate auth token 
    const generatedToken = jwt.sign({ email: email }, process.env.JWT_TOKEN_SECRET, {
-      expiresIn: '1m',
+      expiresIn: '24h',
    });
 
    // Save token to the database
 
    let currentTime = new Date().getTime();
-   let updatedTime = new Date(currentTime + 2 * 60 * 60 * 1000);
+   let tokenExpiryTime = new Date(currentTime + 2 * 60 * 60 * 1000);
    await prisma.auth.create({
       data: {
          auth_token: generatedToken,
-         auth_timeout: updatedTime,
+         auth_timeout: tokenExpiryTime,
          is_logged_in: true,
          is_active:true,
          user: {
@@ -67,8 +67,18 @@ async function login(req, res) {
       },
    });
 
-   return res.status(201).json({ "user": email,"type":user.role, "token": generatedToken })
+   return res.status(201).json({
+      user:{
+         id: user.id,
+         email:user.email
+      },
+      token:generatedToken
+   })
 }
 
+<<<<<<< HEAD
 
 export default { login };
+=======
+export default { login };
+>>>>>>> dev
