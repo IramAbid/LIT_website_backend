@@ -7,10 +7,10 @@ import { } from 'dotenv/config'
 import mailer from "./services/mailer.js";
 import {authenticateToken, authRole} from "./middlewares/auth.js"
 import roles from "./permissions/role.js"
-
+import newsfeedRoutes from "./routes/newsfeedRoutes.js";
 const app = express();
 app.use(express.json());
-app.use(authRoutes)
+
 app.use(newsfeedRoutes)
 app.use(authRouter)
 app.use("/user",userRouter)
@@ -318,8 +318,8 @@ body {font-family: 'Muli', sans-serif;}
 `
 
     const msg = {
-        to: 'mr.mra.info@gmail.com', // Change to your recipient
-        from: 'gj9678@myamu.ac.in',
+        to: 'irama4633@gmail.com', // Change to your recipient
+        from: 'gj8239@myamu.ac.in',
         subject: 'LIT Email Confirmation',
         html: html
     }

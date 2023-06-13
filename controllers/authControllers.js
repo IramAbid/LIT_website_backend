@@ -76,9 +76,5 @@ async function login(req, res) {
    })
 }
 
-<<<<<<< HEAD
 
 export default { login };
-=======
-export default { login };
->>>>>>> dev
