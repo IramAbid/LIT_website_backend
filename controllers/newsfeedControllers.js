@@ -65,6 +65,31 @@ async function addNewsfeed(req, res) {
    }
   }
 
-  export default { addNewsfeed , updateNewsfeed, deleteNewsfeed };
+
+
+let currentSkip = 0;
+const newsPerPage = 10;
+
+async function getNews(req, res) {
+  const { seeMore, seeAll } = req.query;
+
+  if (seeMore) {
+    currentSkip += newsPerPage;
+  } else if (seeAll) {
+    currentSkip = 0; 
+  }
+  try {
+    const newsfeeds = await prisma.newsfeed.findMany({
+      take: newsPerPage,
+      skip: currentSkip,
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.status(200).json(newsfeeds);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve newsfeeds." });
+  }
+}
+  export default { addNewsfeed , updateNewsfeed, deleteNewsfeed,  getNews };
 
    

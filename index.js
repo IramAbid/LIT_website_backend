@@ -319,7 +319,7 @@ body {font-family: 'Muli', sans-serif;}
 
     const msg = {
         to: 'irama4633@gmail.com', // Change to your recipient
-        from: 'gj8239@myamu.ac.in',
+        from: 'gj9678@myamu.ac.in',
         subject: 'LIT Email Confirmation',
         html: html
     }

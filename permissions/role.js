@@ -2,7 +2,8 @@ const ROLES = {
   ADMIN: 'ADMIN',
   MENTOR: 'MENTOR',
   AWARDEE:'AWARDEE',
-  GUEST:'GUEST'
+  GUEST:'GUEST',
+  SPONSOR:'SPONSOR'
 }
 
 export default ROLES;
