@@ -66,23 +66,14 @@ async function addNewsfeed(req, res) {
   }
 
 
-
-let currentSkip = 0;
-const newsPerPage = 10;
-
 async function getNews(req, res) {
-  const { seeMore, seeAll } = req.query;
+  const { take, skip } = req.body;
 
-  if (seeMore) {
-    currentSkip += newsPerPage;
-  } else if (seeAll) {
-    currentSkip = 0; 
-  }
   try {
     const newsfeeds = await prisma.newsfeed.findMany({
-      take: newsPerPage,
-      skip: currentSkip,
-      orderBy: { createdAt: "desc" },
+      take: take ? parseInt(take) : 10, // Number of newsfeeds to retrieve
+      skip: skip ? parseInt(skip) : 0, // Number of newsfeeds to skip
+      orderBy: { createdAt: "desc" }, // Order by newest newsfeed first
     });
 
     res.status(200).json(newsfeeds);
@@ -90,6 +81,7 @@ async function getNews(req, res) {
     res.status(500).json({ error: "Failed to retrieve newsfeeds." });
   }
 }
+
   export default { addNewsfeed , updateNewsfeed, deleteNewsfeed,  getNews };
 
    
