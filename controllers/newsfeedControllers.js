@@ -51,7 +51,7 @@ async function addNewsfeed(req, res) {
 
   async function deleteNewsfeed(req,res)
   {
-   const id = req.body.id;
+   const id = req.params.id;
    try{
     const deleteNewsfeed = await prisma.newsfeed.delete({
       where:{
@@ -67,7 +67,7 @@ async function addNewsfeed(req, res) {
 
 
 async function getNews(req, res) {
-  const { take, skip } = req.body;
+  const { take, skip } = req.query;
 
   try {
     const newsfeeds = await prisma.newsfeed.findMany({
