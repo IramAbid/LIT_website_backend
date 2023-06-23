@@ -1,30 +1,23 @@
 import ROLES from "./role.js";
-
-function canViewNewsfeed(loggedUser, ViewedUserId) {
-    viewedUserId= parseInt(viewedUserId)
-    return (
-        loggedUser.role === ROLES.ADMIN ||
-        loggedUser.role === ROLES.MENTOR ||loggedUser.role == ROLES.SPONSOR||
-        loggedUser.id === addUserId
-    )
-  }
+import prisma from "../prisma/client/client.js";
 
 
-function canUpdateNewsfeed(loggedUser, viewedUserId) {
-    viewedUserId= parseInt(viewedUserId)
-    return (
-      loggedUser.role === ROLES.ADMIN ||
-      loggedUser.id === viewedUserId
-    )
-  }
+
+function canUpdateNewsfeed(loggedUser, newsfeedAuthorId) {
+  return (
+    loggedUser.role === ROLES.ADMIN ||
+    (loggedUser.id === newsfeedAuthorId && [ROLES.MENTOR, ROLES.SPONSOR].includes(loggedUser.role))
+  );
+}
+
+function canDeleteNewsfeed(loggedUser, newsfeedAuthorId) {
+  return (
+    loggedUser.role === ROLES.ADMIN ||
+    (loggedUser.id === newsfeedAuthorId && [ROLES.MENTOR, ROLES.SPONSOR].includes(loggedUser.role))
+  );
+}
 
 
-function canDeleteNewsfeed(loggedUser) {
-    return (
-      loggedUser.role === ROLES.ADMIN  ||
-      loggedUser.id === viewedUserId
-    )
-  }
 
-export {canDeleteNewsfeed, canUpdateNewsfeed, canViewNewsfeed}
+export {canDeleteNewsfeed, canUpdateNewsfeed}
   

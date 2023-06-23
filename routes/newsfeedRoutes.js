@@ -2,7 +2,8 @@ import { Router } from "express";
 import newsfeedControllers from "../controllers/newsfeedControllers.js"
 import { authenticateToken, authRole } from "../middlewares/auth.js";
 import ROLES from "../permissions/role.js";
-import { canDeleteNewsfeed, canViewNewsfeed, canUpdateNewsfeed } from "../permissions/newsfeed.js";
+import { canDeleteNewsfeed, canUpdateNewsfeed } from "../permissions/newsfeed.js";
+import prisma from "../prisma/client/client.js";
 
 
 const router = Router();
@@ -13,33 +14,47 @@ router.put("/newsfeed/update/:id",authenticateToken, authRole([ROLES.ADMIN, ROLE
 
 router.delete("/newsfeed/delete/:id",authenticateToken, authRole([ROLES.ADMIN, ROLES.MENTOR, ROLES.SPONSOR]),authDeleteNewsfeed, newsfeedControllers.deleteNewsfeed);
 
-router.get('/newsfeed/readNews', authGetNewsfeed, newsfeedControllers.getNews);
-
-function authGetNewsfeed(req, res, next) {
-    if (!canViewNewsfeed(req.user, req.params.id)) {
-        res.status(403)
-        return res.send('Not Allowed ')
-    }
-
-    next()
-}
+router.get('/newsfeed/readNews',authenticateToken, newsfeedControllers.getNews);
 
 
 function authDeleteNewsfeed(req, res, next) {
-    if (!canDeleteNewsfeed(req.user)) {
-        res.status(403)
-        return res.send('Not Allowed')
-    }
-
-    next()
-}
-function authUpdateNewsfeed(req, res, next) {
-    if (!canUpdateNewsfeed(req.user, req.params.id)) {
-        res.status(403)
-        return res.send('Not Allowed')
-    }
-    next()
-}
-
-
+    const { id: newsfeedId } = req.params;
+  
+    prisma.newsfeed
+      .findUnique({
+        where: { id: Number(newsfeedId) },
+        select: { userId: true },
+      })
+      .then((newsfeed) => {
+        if (!canDeleteNewsfeed(req.user, newsfeed.userId)) {
+          res.status(403);
+          return res.send("Not Allowed");
+        }
+        next();
+      })
+      .catch((error) => {
+        res.status(500).json({ error: "Failed to retrieve newsfeed." });
+      });
+  }
+  
+  function authUpdateNewsfeed(req, res, next) {
+    const { id: newsfeedId } = req.params;
+  
+    prisma.newsfeed
+      .findUnique({
+        where: { id: Number(newsfeedId) },
+        select: { userId: true },
+      })
+      .then((newsfeed) => {
+        if (!canUpdateNewsfeed(req.user, newsfeed.userId)) {
+          res.status(403);
+          return res.send("Not Allowed");
+        }
+        next();
+      })
+      .catch((error) => {
+        res.status(500).json({ error: "Failed to retrieve newsfeed." });
+      });
+  }
+  
 export default router
