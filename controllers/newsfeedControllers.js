@@ -53,7 +53,7 @@ async function addNewsfeed(req, res) {
 
 async function deleteNewsfeed(req, res) {
   const id = req.params.id;
- const loggedUserId = req.user.id; // Assuming the logged-in user ID is accessible from req.user
+ 
 
   try {
     const deletedNewsfeed = await prisma.newsfeed.delete({
