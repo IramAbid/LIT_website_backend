@@ -60,9 +60,6 @@ async function deleteNewsfeed(req, res) {
       where: {
         id: Number(id),
       },
-      data: {
-       deletedBy: loggedUserId, // Update the lastDeletedBy column with the logged-in user ID
-      },
     });
 
     return res.status(200).json(deletedNewsfeed);
