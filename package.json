@@ -2,7 +2,7 @@
   "name": "lit-web-backend",
   "version": "1.0.0",
   "description": "Backend of LIT website",
-  "main": "server.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayaankhan98/LIT-web-backend.git"
